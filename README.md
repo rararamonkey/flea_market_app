@@ -1,6 +1,11 @@
 # Flea Market App
 
-フリマアプリ
+Laravelを使用して開発したフリマアプリです。
+
+ユーザーは会員登録・ログイン後に商品を出品、購入できます。
+また、いいね機能、コメント機能、マイリスト機能、プロフィール編集機能を実装しています。
+
+決済機能にはStripeを使用し、メール認証にはLaravel Fortifyを使用しています。
 
 ## 環境構築
 
@@ -64,7 +69,8 @@ php artisan config:clear
 * Laravel Fortify
 * Stripe
 * MailHog
-
+* Laravel Dusk
+  
 ## URL
 
 * 開発環境：http://localhost
@@ -83,6 +89,9 @@ php artisan config:clear
 ### 購入者ユーザー
 - メールアドレス：buyer@test.com
 - パスワード：password
+
+本アプリに管理者機能は実装しておりません。
+一般ユーザーのみ利用可能です。
 
 ## メール認証
 
@@ -161,9 +170,32 @@ http://localhost
 
 ## ER図
 
-![ER図](./images/er.png)
+![ER図](./ER.png)
 
 ## テスト実行
 
+本アプリでは、FeatureテストとLaravel Duskによるブラウザテストを実装しています。
+
+### Featureテスト
+
+以下のコマンドでFeatureテストを実行できます。
+
 ```bash
 php artisan test
+```
+
+### ブラウザテスト（Laravel Dusk）
+
+Duskテストでは、購入画面で支払い方法を選択した際に、小計欄へ選択内容が反映されることを確認しています。
+
+Duskを実行する前に、Laravelの開発サーバーを起動してください。
+
+```bash
+php artisan serve --host=127.0.0.1 --port=8000
+```
+
+別ターミナルで以下を実行します。
+
+```bash
+php artisan dusk
+```
