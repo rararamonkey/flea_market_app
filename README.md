@@ -170,7 +170,7 @@ http://localhost
 
 ## ER図
 
-![ER図](./ER.png)
+![ER図](./images/ER.png)
 
 ## テスト実行
 
