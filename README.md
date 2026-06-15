@@ -172,13 +172,38 @@ http://localhost
 
 ![ER図](./images/er.png)
 
+## ER図
+
+![ER図](./images/er.png)
+
 ## テスト実行
 
-本アプリでは、FeatureテストとLaravel Duskによるブラウザテストを実装しています。
+本アプリでは、FeatureテストおよびLaravel Duskによるブラウザテストを実装しています。
 
 ### Featureテスト
 
-以下のコマンドでFeatureテストを実行できます。
+以下の機能についてテストを実施しています。
+
+- 会員登録機能
+- ログイン機能
+- ログアウト機能
+- 商品一覧表示機能
+- マイリスト機能
+- 商品検索機能
+- 商品詳細表示機能
+- いいね機能
+- コメント機能
+- 商品購入機能
+- 支払い方法選択機能
+- 配送先変更機能
+- ユーザー情報取得機能
+- ユーザー情報変更機能
+- 商品出品機能
+- メール認証機能
+
+Featureテストは合計65件作成し、主要機能の正常系・異常系を確認しています。
+
+#### 実行コマンド
 
 ```bash
 php artisan test
@@ -186,16 +211,79 @@ php artisan test
 
 ### ブラウザテスト（Laravel Dusk）
 
-Duskテストでは、購入画面で支払い方法を選択した際に、小計欄へ選択内容が反映されることを確認しています。
+Laravel Duskを使用し、以下のブラウザテストを実装しています。
 
-Duskを実行する前に、Laravelの開発サーバーを起動してください。
+- 支払い方法選択時に小計欄へ選択内容が反映されること
+- 支払い方法変更時に画面表示が正しく更新されること
+
+Duskテストは合計2件実装しています。
+
+### Laravel Dusk インストール
+
+ブラウザテストを実行する場合は、以下のコマンドを実行してください。
+
+```bash
+php artisan dusk:install
+```
+
+ChromeのバージョンとChromeDriverのバージョンが一致しない場合は、以下のコマンドを実行してChromeDriverを更新してください。
+
+```bash
+php artisan dusk:chrome-driver
+```
+
+### ブラウザテスト実行
+
+Laravelの開発サーバーを起動します。
 
 ```bash
 php artisan serve --host=127.0.0.1 --port=8000
 ```
 
-別ターミナルで以下を実行します。
+別ターミナルで以下のコマンドを実行します。
 
 ```bash
 php artisan dusk
 ```
+
+### テスト結果
+
+Featureテスト65件、Laravel Duskテスト2件の実行を確認しています。
+
+### 補足（ChromeDriverに関するトラブルシューティング）
+
+実行環境によっては、ChromeとChromeDriverのバージョン差異によりLaravel Duskが正常に起動しない場合があります。
+
+その場合は、以下のコマンドでバージョンを確認してください。
+
+```bash
+chromium --version
+chromedriver --version
+```
+
+ChromeとChromeDriverのバージョンが一致しない場合は、以下の手順でChromeDriverを更新してください。
+
+```bash
+apt install -y chromium chromium-driver
+
+pkill -9 chromedriver
+
+rm vendor/laravel/dusk/bin/chromedriver-linux
+
+cp /usr/bin/chromedriver vendor/laravel/dusk/bin/chromedriver-linux
+
+chmod +x vendor/laravel/dusk/bin/chromedriver-linux
+
+vendor/laravel/dusk/bin/chromedriver-linux --version
+```
+
+処理内容
+
+1. ChromiumおよびChromeDriverをインストールする
+2. 起動中のChromeDriverを停止する
+3. Laravel Duskが使用する古いChromeDriverを削除する
+4. 新しいChromeDriverをLaravel Dusk用にコピーする
+5. 実行権限を付与する
+6. ChromeDriverのバージョンを確認する
+
+※ 上記の操作はDockerコンテナ内で実行してください。
