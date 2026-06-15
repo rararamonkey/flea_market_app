@@ -239,9 +239,11 @@ php artisan serve --host=127.0.0.1 --port=8000
 
 別ターミナルで以下のコマンドを実行します。
 
+```bash
 ./vendor/laravel/dusk/bin/chromedriver-linux --port=9515 &
 
 php artisan dusk
+```
 
 ### テスト結果
 
