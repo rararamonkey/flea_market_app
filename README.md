@@ -173,10 +173,6 @@ http://localhost
 
 ![ER図](./images/er.png)
 
-## ER図
-
-![ER図](./images/er.png)
-
 ## テスト実行
 
 本アプリでは、FeatureテストおよびLaravel Duskによるブラウザテストを実装しています。
@@ -249,7 +245,7 @@ php artisan dusk
 
 ### テスト結果
 
-Featureテスト65件、Laravel Duskテスト2件の実行を確認しています。
+Featureテスト65件、Laravel Duskテスト2件について実行し、すべて成功することを確認しています。
 
 ### 補足（ChromeDriverに関するトラブルシューティング）
 
