@@ -200,12 +200,6 @@ http://localhost
 
 Featureテストは合計65件作成し、主要機能の正常系・異常系を確認しています。
 
-#### 実行コマンド
-
-```bash
-php artisan test
-```
-
 ### ブラウザテスト（Laravel Dusk）
 
 Laravel Duskを使用し、以下のブラウザテストを実装しています。
@@ -223,27 +217,15 @@ Duskテストは合計2件実装しています。
 php artisan dusk:install
 ```
 
-ChromeのバージョンとChromeDriverのバージョンが一致しない場合は、以下のコマンドを実行してChromeDriverを更新してください。
-
-```bash
-php artisan dusk:chrome-driver
-```
-
 ### ブラウザテスト実行
-
-Laravelの開発サーバーを起動します。
-
-```bash
-php artisan serve --host=127.0.0.1 --port=8000
-```
-
-別ターミナルで以下のコマンドを実行します。
 
 ```bash
 ./vendor/laravel/dusk/bin/chromedriver-linux --port=9515 &
 
 php artisan dusk
 ```
+
+※ Chrome / ChromeDriver のバージョンが一致しない場合は、下記トラブルシューティングを参照してください。
 
 ### テスト結果
 
@@ -253,7 +235,7 @@ Featureテスト65件、Laravel Duskテスト2件について実行し、すべ�
 
 実行環境によっては、ChromeとChromeDriverのバージョン差異によりLaravel Duskが正常に起動しない場合があります。
 
-その場合は、以下のコマンドでバージョンを確認してください。
+以下のコマンドでバージョンを確認してください。
 
 ```bash
 chromium --version
@@ -276,7 +258,7 @@ chmod +x vendor/laravel/dusk/bin/chromedriver-linux
 vendor/laravel/dusk/bin/chromedriver-linux --version
 ```
 
-処理内容
+#### 処理内容
 
 1. ChromiumおよびChromeDriverをインストールする
 2. 起動中のChromeDriverを停止する
@@ -287,8 +269,7 @@ vendor/laravel/dusk/bin/chromedriver-linux --version
 
 ※ 上記の操作はDockerコンテナ内で実行してください。
 
-
-## 補足（Docker環境でのLaravel Dusk実行）
+### 補足（Docker環境でのLaravel Dusk実行）
 
 Docker環境でLaravel Duskを実行する場合、コンテナ内のブラウザからアプリへアクセスできず、以下のようなエラーが発生する場合があります。
 
@@ -296,7 +277,7 @@ Docker環境でLaravel Duskを実行する場合、コンテナ内のブラウ�
 net::ERR_CONNECTION_REFUSED
 ```
 
-その場合は、Dusk用の環境ファイルを作成し、APP_URL を nginx に変更してください。
+Dusk実行時はコンテナ内のChromeからアプリへアクセスするため、APP_URL を localhost ではなく nginx に設定します。
 
 ```bash
 cp .env .env.dusk.local
@@ -314,7 +295,7 @@ php artisan config:clear
 php artisan dusk
 ```
 
-また、実行環境によっては Dusk のログ保存用ディレクトリが存在せず、以下のエラーが発生する場合があります。
+また、実行環境によってはDuskのログ保存用ディレクトリが存在せず、以下のエラーが発生する場合があります。
 
 ```bash
 Failed to open stream: No such file or directory
@@ -326,7 +307,7 @@ Failed to open stream: No such file or directory
 mkdir -p tests/Browser/console
 ```
 
-処理内容
+#### 処理内容
 
 1. Dusk専用の環境ファイルを作成する
 2. APP_URL を nginx コンテナへ変更する
