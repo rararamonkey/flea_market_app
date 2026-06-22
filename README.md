@@ -286,3 +286,53 @@ vendor/laravel/dusk/bin/chromedriver-linux --version
 6. ChromeDriverのバージョンを確認する
 
 ※ 上記の操作はDockerコンテナ内で実行してください。
+
+
+## 補足（Docker環境でのLaravel Dusk実行）
+
+Docker環境でLaravel Duskを実行する場合、コンテナ内のブラウザからアプリへアクセスできず、以下のようなエラーが発生する場合があります。
+
+```bash
+net::ERR_CONNECTION_REFUSED
+```
+
+その場合は、Dusk用の環境ファイルを作成し、APP_URL を nginx に変更してください。
+
+```bash
+cp .env .env.dusk.local
+```
+
+```env
+APP_URL=http://nginx
+```
+
+設定変更後、キャッシュをクリアしてDuskを実行します。
+
+```bash
+php artisan config:clear
+
+php artisan dusk
+```
+
+また、実行環境によっては Dusk のログ保存用ディレクトリが存在せず、以下のエラーが発生する場合があります。
+
+```bash
+Failed to open stream: No such file or directory
+```
+
+その場合は以下を実行してください。
+
+```bash
+mkdir -p tests/Browser/console
+```
+
+処理内容
+
+1. Dusk専用の環境ファイルを作成する
+2. APP_URL を nginx コンテナへ変更する
+3. 設定キャッシュを削除する
+4. Dockerコンテナ内からアプリへアクセスできるようにする
+5. Laravel Duskを実行する
+6. 必要に応じてログ出力用ディレクトリを作成する
+
+※ Docker環境でLaravel Duskを実行する際に発生したエラーへの対処手順を記載しています。
